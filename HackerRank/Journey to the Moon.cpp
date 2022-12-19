@@ -61,12 +61,9 @@ ll journeyToMoon(int n, vector<vector<int>> astronaut) {
     DSU d(n);
     for (auto &a : astronaut) d.union_sets(a[0], a[1]);
     
-    unordered_map<int, int> repeat;
-    for (int i = 0; i < n; i++) repeat[d.find_set(i)]++;
-    
     ll res = 0;
     for (int i = 0; i < n; i++) {
-        res += (n - repeat[d.find_set(i)]);
+        res += (n - d.size[d.find_set(i)]);
     }
     return res/2;
 }
