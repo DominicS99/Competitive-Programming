@@ -2,9 +2,9 @@
 Note: 
   Test Case 11 produces integer overflow with this DSU solution.
   If you are doing everything else right and not getting TLE, then change these 3 to ll (long long int):
-    Change return type of journeyToMoon function (line 59)
-    Change data type of res (line 67)
-    Most importantly: Change data type of result in the main function (line 105)
+    Change return type of journeyToMoon function (line 60)
+    Change data type of res (line 64)
+    Most importantly: Change data type of result in the main function (line 101)
 */
 
 #include <bits/stdc++.h>
