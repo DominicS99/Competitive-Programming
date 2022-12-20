@@ -4,6 +4,11 @@ Used min priority queue to store each value and coordinates while conducting BFS
 Used DP logic to save results, that way each query can be completed in O(1) time.
 */
 
+/*
+Initially I had WA because I was creating memo with values of the max value constraint, when
+    I needed to set it to the amount of points possible within that particular grid. (limit)
+*/
+
 typedef pair<int,int> pii;
 
 class Solution {
