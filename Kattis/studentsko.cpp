@@ -1,31 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+bool indexSort (pair<int, int> i, pair<int, int> j) {
+  return i.second < j.second;
+}
+
 int main() {
-  int n, k;
+  ios::sync_with_stdio(0);
+  cin.tie(NULL);
+
+  // Input
+  int n, k, num;
   cin >> n >> k;
-  vector<int> d(n);
-  for (auto &it : d) cin >> it;
-
-  vector<int> copied(n);
-  copy(d.begin(), d.end(), copied.begin());
-  sort(copied.begin(), copied.end());
-
-  unordered_map<int, int> groups;
+  vector<pair<int, int>> d(n);
   for (int i = 0; i < n; i++) {
-    groups[copied[i]] = i/k + 1;
+    cin >> num;
+    d[i] = {num, i};
   }
 
-  for (int i = 0; i < n; i++) {
-    d[i] = groups[d[i]];
-  }
+  // Compress array into groups
+  sort(d.begin(), d.end());
+  for (int i = 0; i < n; i++) d[i].first = i/k;
+  sort(d.begin(), d.end(), indexSort);
 
+  // LIS
   vector<int> memo(n, INT_MAX);
   for (int i = 0; i < n; i++) {
-    int pos = upper_bound(memo.begin(), memo.end(), d[i]) - memo.begin();
-    memo[pos] = d[i];
+    int pos = upper_bound(memo.begin(), memo.end(), d[i].first) - memo.begin();
+    memo[pos] = d[i].first;
   }
 
+  // # of elements that aren't apart of LIS
   int res = n;
   for (int i = 0; i < n; i++) {
     if (memo[i] == INT_MAX) break;
