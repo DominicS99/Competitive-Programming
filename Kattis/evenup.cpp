@@ -7,7 +7,7 @@ int main() {
     int n;
     cin >> n;
     vector<int> d(n), e;
-    for (auto &it : d) cin >> it;
+    for (int &it : d) cin >> it;
 
     while (!d.empty()) {
         if (!e.empty() && (e.back() + d.back())%2 == 0) {
