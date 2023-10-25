@@ -5,7 +5,35 @@
     animals will now try to remove every other animal, so the process repeats with a
     much stronger attacking group.
 */
+#include <bits/stdc++.h>
+using namespace std;
 
+typedef long long ll;
+
+int main() {
+  ios::sync_with_stdio(0); cin.tie(NULL);
+  
+  int n; cin >> n;
+  vector<int> d(n); for (auto &it : d) cin >> it;
+  sort(d.rbegin(), d.rend());
+  
+  ll attack = d[0];
+  int res = 1;
+  for (int i = 1; i < n; ) {
+    int defense = 0;
+    while (i < n && attack > defense) defense += d[i++];
+    if (attack > defense) break;
+
+    res = i;
+    attack += defense;
+  }
+
+  cout << res << "\n";
+  return 0;
+}
+
+/*
+// Initial Version
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -36,3 +64,4 @@ int main() {
 
   cout << res << endl;
 }
+*/
