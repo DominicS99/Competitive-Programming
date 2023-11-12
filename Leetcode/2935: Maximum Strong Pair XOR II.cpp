@@ -1,39 +1,41 @@
 /*
-* One of those things where you either know it or don't.
-* Transformed boiler plate xorTrie into my own version, so hopefully I'll be able to use it later on.
-* From what I understand, it's a number trie using bits instead of characters, with an extra function to find maxXor based on possible bit combos (numbers) inserted.
+Revision: Updating xorTrie Boiler Plate
 */
 
 struct xorTrie {
-    long long totBits = (long long)1<<20;
+    int amtUsed;
+    long long totBits;
     xorTrie* children[2] = {NULL, NULL};
-    xorTrie() {}
+
+    xorTrie() {
+       totBits = (long long)1<<18;
+       amtUsed = 0;
+    }
     void insert(int x) {
         xorTrie *node = this;
         for (long long b = totBits; b; b >>= 1) {
             long long curr = (x & b) > 0;
+            node->amtUsed++;
             if (!node->children[curr]) node->children[curr] = new xorTrie();
             node = node->children[curr];
         }
+        node->amtUsed++;
     }
-    bool remove(int x, long long b) {
-        if (!b) return true;
-        long long curr = (x & b) > 0;
-        if (children[curr] && children[curr]->remove(x, b >> 1)) {
-            delete children[curr];
-            children[curr] = NULL;
+    void remove(int x) {
+        xorTrie *node = this;
+        for(long long b = totBits; b; b >>= 1){
+            long long curr = (x & b) > 0;
+            node->amtUsed--;
+            node = node->children[curr];
         }
-        return children[0] == children[1];
-    }
-    bool remove(int x) {
-        return remove(x, totBits);
+        node->amtUsed--;
     }
     int maxXor(int x) {
         int res = 0;
         xorTrie *node = this;
         for (long long b = totBits; b; b >>= 1) {
             long long curr = (x & b) > 0;
-            if (node->children[!curr]) {
+            if (node->children[!curr] && node->children[!curr]->amtUsed) {
                 res += b;
                 node = node->children[!curr];
             } else {
@@ -43,6 +45,52 @@ struct xorTrie {
         return res;
     }
 };
+
+/*
+* One of those things where you either know it or don't.
+* Transformed boiler plate xorTrie into my own version, so hopefully I'll be able to use it later on.
+* From what I understand, it's a number trie using bits instead of characters, with an extra function to find maxXor based on possible bit combos (numbers) inserted.
+*/
+
+// struct xorTrie {
+//     long long totBits = (long long)1<<20;
+//     xorTrie* children[2] = {NULL, NULL};
+//     xorTrie() {}
+//     void insert(int x) {
+//         xorTrie *node = this;
+//         for (long long b = totBits; b; b >>= 1) {
+//             long long curr = (x & b) > 0;
+//             if (!node->children[curr]) node->children[curr] = new xorTrie();
+//             node = node->children[curr];
+//         }
+//     }
+//     bool remove(int x, long long b) {
+//         if (!b) return true;
+//         long long curr = (x & b) > 0;
+//         if (children[curr] && children[curr]->remove(x, b >> 1)) {
+//             delete children[curr];
+//             children[curr] = NULL;
+//         }
+//         return children[0] == children[1];
+//     }
+//     bool remove(int x) {
+//         return remove(x, totBits);
+//     }
+//     int maxXor(int x) {
+//         int res = 0;
+//         xorTrie *node = this;
+//         for (long long b = totBits; b; b >>= 1) {
+//             long long curr = (x & b) > 0;
+//             if (node->children[!curr]) {
+//                 res += b;
+//                 node = node->children[!curr];
+//             } else {
+//                 node = node->children[curr];
+//             }
+//         }
+//         return res;
+//     }
+// };
 
 class Solution {
 public:
