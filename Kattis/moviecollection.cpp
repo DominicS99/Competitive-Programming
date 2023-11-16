@@ -40,9 +40,9 @@ struct BIT {
         tree.resize(n);
     }
 
-    void update(int i, ll val) {
+    void update(int i, ll diff) {
         for (i = i+1; i < n; i += (i & -i)) {
-            tree[i] += val;
+            tree[i] += diff;
         }
     }
 
